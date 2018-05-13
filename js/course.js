@@ -434,6 +434,11 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		
 		
 		/**********************************common function**************************************************************/
+		$scope.closeModal=function()
+		{
+			$('.close').click();
+		}
+		
 		$scope.renderUserName = function(e) {
 			return $scope.getNameByMail(e);
 		}
