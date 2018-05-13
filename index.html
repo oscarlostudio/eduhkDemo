@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="teamform, team">
     <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Online Learning Platform</title>
+	<title>Online Learning Platform</title>
 	<!-- libraries and CSS 	  
 		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
 		Bootstrap: Library and CSS for bootstrap framework (v3.3.7 is used)
@@ -15,10 +15,22 @@
 	-->
 	        
     <script src="lib/jquery.min.js"></script>      
-    <script src="lib/bootstrap.min.js"></script>      
+    <!--<script src="lib/bootstrap.min.js"></script>      
       	  
 	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">  -->
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+	
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">   
 
       
@@ -87,8 +99,8 @@
 								</div>
 
 							</a>
-							<div class="row panel_content" style="cursor: pointer;" ng-click="dashBoardChangePage(q.key)">
-									<div class="col-xs-9 ">
+							<div class="panel_content" style="cursor: pointer;" ng-click="dashBoardChangePage(q.key)">
+									<div style="margin:10px;">
 										<div>{{q.data.name}}	</div>
 									</div>
 							</div>
