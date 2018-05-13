@@ -1,0 +1,59 @@
+.bg_blue
+ {
+	 background:#364F6b!important;
+ }
+ .bg_light_blue
+ {
+	 background:#DBEDF3!important;
+ }
+.bg_green
+ {
+	 background:#3FC1C9!important;
+ }
+ 
+.bg_grey
+ {
+	 background:#F5F5F5!important;
+ }
+
+ .bg_red
+{
+	 background:#FC5185!important;	
+}
+
+.txt_blue
+ {
+	 color:#364F6b!important;
+ }
+ 
+.txt_green
+ {
+	 color:#3FC1C9!important;
+ }
+ 
+.txt_grey
+ {
+	 color:#F5F5F5!important;
+ }
+
+ .txt_red
+{
+	 color:#FC5185!important;	
+}
+
+.txt_white
+{
+	 color:#FFF!important;
+}
+
+.txt_corr
+{
+	color:green;
+	font-weight:bold;
+}
+
+.txt_wrong
+{
+	color:red;
+	font-weight:bold;
+}

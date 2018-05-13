@@ -1,0 +1,115 @@
+<!doctype html>
+<html ng-app="teamforming">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="teamform, team">
+    <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Online Learning Platform</title>
+	<!-- libraries and CSS 	  
+		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
+		Bootstrap: Library and CSS for bootstrap framework (v3.3.7 is used)
+		Font-awesome: More icons for the web development (v4.6.3 is used)		
+		site.css: A customized css for our web application. Not from any web framework. 
+	-->
+	        
+    <script src="lib/jquery.min.js"></script>      
+    <script src="lib/bootstrap.min.js"></script>      
+      	  
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">   
+
+      
+    <!-- Customized libraries shared by pages -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
+	<!-- AngularFire URL: https://github.com/firebase/angularfire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+
+	<script>
+	  // Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyACG8382aZNwMFKI_uRnkn8rlzUHo9_W8s",
+			authDomain: "eduhk-interview-demo.firebaseapp.com",
+			databaseURL: "https://eduhk-interview-demo.firebaseio.com",
+			projectId: "eduhk-interview-demo",
+			storageBucket: "",
+			messagingSenderId: "151054002208"
+		};
+		firebase.initializeApp(config);
+	  
+
+	  
+	</script>
+	
+	<!-- global function -->
+	<script src="js/global.js"></script>
+	<script src="js/index.js"></script>
+	
+	
+	
+	<!-- Customized CSS shared by pages -->
+	<link href="css/theme.css" rel="stylesheet" type="text/css">
+	<link href="css/color.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/dash.css">
+<body>
+<div ng-controller="dashBoardCtrl">
+
+</div>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+		<div id="navBar" ng-controller="wrapperCtrl">
+		<div ng-include="'navbar.html'"></div>
+		</div>
+        <!-- Page Content -->
+		
+		<div id="coursesContentBlock" ng-controller="indexCtrl" >
+       		<div class="row content">
+			<div class="heading">
+				<h1>Dash Board</h1>
+			</div>
+				<!--<div class="section">Course</div>-->
+				<div ng-repeat="q in courseArray">
+	
+					<div class="col-lg-4 col-md-6">
+						<div class="panel">
+                            <a style="cursor: pointer;" ng-click="dashBoardChangePage(q.key)">
+								<div class="panel-heading"  style="background-image: url({{q.data.image}}); background-size: 100% 100%; color: #FFF">
+									<div class="row panel_icon" >
+										<div class="huge t_title">{{q.data.title}}	</div>
+										<input  type="hidden" id="cKey" value="{{q.key}}">
+									</div>
+		
+								</div>
+
+							</a>
+							<div class="row panel_content" style="cursor: pointer;" ng-click="dashBoardChangePage(q.key)">
+									<div class="col-xs-9 ">
+										<div>{{q.data.name}}	</div>
+									</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+				
+			</div>
+		</div>
+		      
+        <!-- /#page-content-wrapper -->
+    </div>
+
+	<!-- /#wrapper -->
+
+	<!-- jQuery -->
+
+    <!-- Menu Toggle Script -->
+    
+</body>
+</html>

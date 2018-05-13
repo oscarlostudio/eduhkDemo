@@ -1,0 +1,437 @@
+<!doctype html>
+<html ng-app="teamforming">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="teamform, team">
+    <!-- The meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Online Learning Platform</title>
+	<!-- libraries and CSS 	  
+		JQuery: Necessary for some bootstrap interactions (v1.12.4 is used)		
+		Bootstrap: Library and CSS for bootstrap framework (v3.3.7 is used)
+		Font-awesome: More icons for the web development (v4.6.3 is used)		
+		site.css: A customized css for our web application. Not from any web framework. 
+	-->
+	        
+    <script src="lib/jquery.min.js"></script>      
+    <script src="lib/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      	  
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<link rel="stylesheet" href="js/fancyBox/source/jquery.fancybox.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/fancyBox/source/jquery.fancybox.pack.js"></script>
+
+      
+    <!-- Customized libraries shared by pages -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
+	<!-- AngularFire URL: https://github.com/firebase/angularfire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+
+	<script>
+	  // Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyACG8382aZNwMFKI_uRnkn8rlzUHo9_W8s",
+		authDomain: "eduhk-interview-demo.firebaseapp.com",
+		databaseURL: "https://eduhk-interview-demo.firebaseio.com",
+		projectId: "eduhk-interview-demo",
+		storageBucket: "",
+		messagingSenderId: "151054002208"
+	};
+	firebase.initializeApp(config);
+	  
+	  $(document).ready(function(){
+			//$.get("navbar.html",function(response){
+			//$('#navBar').append(response);
+			//});
+			//$('#wrapper').('navbar.html');
+		});
+	  
+	</script>
+	
+	<!-- global function -->
+	<script src="js/global.js"></script>
+	<script src="js/course.js"></script>
+	<script src="js/moment.js"></script>
+	<!-- Customized CSS shared by pages -->
+	<link href="css/theme.css" rel="stylesheet" type="text/css">
+	<link href="css/color.css" rel="stylesheet" type="text/css">
+	<link href="css/course.css" rel="stylesheet" type="text/css">
+    <link href="css/inputStyle.css" rel="stylesheet" type="text/css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+
+</head>
+
+<body>
+<div ng-controller="dashBoardCtrl">
+	
+    <div id="wrapper">
+        <!-- Sidebar -->
+		<div id="navBar" ng-controller="wrapperCtrl">
+			<div ng-include="'navbar.html'"></div>
+		</div>
+        <!-- Page Content -->
+		<div ng-controller="courseCtrl" class="row content">
+		<div  ng-if="ready">
+			<div class="heading" >
+				<h1>{{currCourse.title}}  {{currCourse.name}}</h1>
+			</div>
+
+			<div class="choicesList">
+				<div ng-if="activeChoice=='0'" class="choice active"><div class="icon-medium"><i class="fa fa-fw fa-star"></i></div><div>Introduction</div></div>
+				<div ng-if="activeChoice!='0'" class="choice" ng-click="changeActive('0')"><div class="icon-medium"><i class="fa fa-fw fa-star"></i></div><div>Introduction</div></div>
+				<div ng-if="activeChoice=='1'" class="choice active"  ><div class="icon-medium"><i class="fa fa-fw fa fa-file"></i></div><div>Supplementary Material</div></div>
+				<div ng-if="activeChoice!='1'" class="choice" ng-click="changeActive('1')"><div class="icon-medium"><i class="fa fa-fw fa fa-file"></i></div><div>Supplementary Material</div></div>
+				<div ng-if="activeChoice=='2'" class="choice active"  ><div class="icon-medium"><i class="fa fa-fw fa-pencil-square-o"></i></div><div>Exercise</div></div>
+				<div ng-if="activeChoice!='2'" class="choice" ng-click="changeActive('2')"><div class="icon-medium"><i class="fa fa-fw fa-pencil-square-o"></i></div><div>Exercise</div></div>
+				<div ng-if="activeChoice=='3'" class="choice active" ><div class="icon-medium"><i class="fa fa-fw fa-comment"></i></div><div>Discussion Board</div></div>
+				<div ng-if="activeChoice!='3'" class="choice" ng-click="changeActive('3')"><div class="icon-medium"><i class="fa fa-fw fa-comment"></i></div><div>Discussion Board</div></div>
+			</div>
+			
+			<div id="introduction" class="contentBlock" ng-if="activeChoice=='0'">
+				<div>
+					<h3>About this course</h3>
+					<p>{{currCourse.introdution}}</p>
+
+				</div>
+			
+			</div>
+			
+			<div id="supplementary" class="contentBlock" ng-if="activeChoice=='1'">
+				<div class="topicList" ng-repeat="q in materialList">
+				
+					<div  class="bg_blue topicBar" data-toggle="collapse" href="#material{{$index}}" >
+					{{q.data.topic}}
+					</div>
+					<div class="collapse" id="material{{$index}}">
+						<div class="materialList">
+							<div class="materialItem" ng-repeat="k in q.data.material"><a class="url" target="_blank" href="{{k.url}}">{{$index+1}}. {{k.name}}</a></div>
+
+						</div>
+					</div>
+				
+		
+				</div>
+			</div>
+			
+			
+			<!--ng-click="loadingExerciseAnswer(q.id,email)"-->
+			<div id="exercise" class="contentBlock" ng-if="activeChoice=='2'">
+				<div class="postBtn postBtn-small bg_red" ng-if="role=='1'"  data-toggle="modal" data-target="#addExerciseModal" ng-click="resetNewExerciseContent()">
+					<div class="icon-small"><i class="fa fa-fw fa-plus-square"></i></div>
+					<div>Add</div>
+				</div>
+				
+				<div class="execiseList" ng-if="role=='0'"  >
+					<div class="exerciseItem" ng-repeat="q in exerciseList">
+						<div class="exerciseTitle">{{q.data.title}}</div>
+						<div class="postBtn bg_green" ng-if="!q.data.submitted" ng-click="activeExecise(q.id)" data-toggle="modal" data-target="#doExerciseModal">
+							<div class="icon-small"><i class="fa fa-fw fa-play"></i></div>
+							<div>Ready</div>
+						</div>
+						<div class="postBtn bg_green" ng-if="q.data.submitted" ng-click="loadingExerciseAnswer(q.id,email)" data-toggle="modal" data-target="#checkAnswerModal">
+							<div class="icon-small"><i class="fa fa-fw fa-eye"></i></div>
+							<div>Answer</div>
+						</div>
+
+					</div>
+					
+				</div>
+				
+				<div class="execiseList" ng-if="role=='1'">
+					<div class="exerciseItem" ng-repeat="q in exerciseList">
+						<div class="exerciseTitle">{{q.data.title}}</div>
+						<div class="postBtn bg_green marginRight postBtn-large"  >
+							<div class="icon-small"><i class="fa fa-fw fa-bar-chart"></i></div>
+							<div>Submitted</div>
+						</div>
+						<div class="postBtn bg_green postBtn postBtn-large"  >
+							<div class="icon-large"><i class="fa fa-fw fa-pie-chart"></i></div>
+							<div>Analytics</div>
+						</div>
+
+					</div>
+				</div>
+				
+				
+				 <div class="modal fade" id="checkAnswerModal" role="dialog">
+					<div class="modal-dialog modal-large">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">{{currAnswer.title}}</h4>
+						</div>
+						<div class="modal-body bg_grey modalBody" >
+
+							<div class="topicList" ng-repeat="q in currAnswer.question">							
+								<div  class="bg_blue topicBar" data-toggle="collapse" href="#ANSquestion{{$index}}" >
+								Question {{$index+1}}
+								</div>
+								<div class="collapse" id="ANSquestion{{$index}}">
+									<div class="questionList">
+										<div class="questionInner" >
+											<div>{{q.question}}</div>
+											
+											<div class="answerSet">
+												<div class="answerItem txt_corr" ng-if="q.corr=='0'||q.choice=='0'&& q.corr==q.choice">A.  <span>{{q["0"]}} </span></div>
+												<div class="answerItem txt_wrong" ng-if="q.choice=='0'&& q.corr!=q.choice">A.  <span>{{q["0"]}} </span></div>
+												<div class="answerItem" ng-if="q.choice!='0'&&q.corr!='0'">A.  <span>{{q["0"]}} </span></div>												
+												<div class="answerItem txt_corr" ng-if="q.corr=='1'||q.choice=='1'&& q.corr==q.choice">B.  <span>{{q["1"]}} </span></div>
+												<div class="answerItem txt_wrong" ng-if="q.choice=='1'&& q.corr!=q.choice">B.  <span>{{q["1"]}} </span></div>
+												<div class="answerItem" ng-if="q.choice!='1'&&q.corr!='1'">B.  <span>{{q["1"]}} </span></div>
+												
+												<div class="answerItem txt_corr" ng-if="q.corr=='2'||q.choice=='2'&& q.corr==q.choice">C.  <span>{{q["2"]}} </span></div>
+												<div class="answerItem txt_wrong" ng-if="q.choice=='2'&& q.corr!=q.choice">C.  <span>{{q["2"]}} </span></div>
+												<div class="answerItem" ng-if="q.choice!='2'&&q.corr!='2'">C.  <span>{{q["2"]}} </span></div>
+												
+												<div class="answerItem txt_corr" ng-if="q.corr=='3'||q.choice=='3'&& q.corr==q.choice">D.  <span>{{q["3"]}} </span></div>
+												<div class="answerItem txt_wrong" ng-if="q.choice=='3'&& q.corr!=q.choice">D.  <span>{{q["3"]}} </span></div>
+												<div class="answerItem" ng-if="q.choice!='3'&&q.corr!='3'">D.  <span>{{q["3"]}} </span></div>
+
+										
+											</div>
+										</div>
+
+									</div>
+								</div>	
+							</div>
+
+											  
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="submitExercise()">
+						  Cannel
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
+
+				  
+				 <div class="modal fade" id="doExerciseModal" role="dialog">
+					<div class="modal-dialog modal-large">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">{{currExercise.data.title}}</h4>
+						</div>
+						<div class="modal-body bg_grey modalBody" >
+
+							<div class="topicList" ng-repeat="q in currExercise.data.question">							
+								<div  class="bg_blue topicBar" data-toggle="collapse" href="#EXquestion{{$index}}" >
+								Question {{$index+1}}
+								</div>
+								<div class="collapse" id="EXquestion{{$index}}">
+									<div class="questionList">
+										<div class="questionInner" >
+											<div>{{q.question}}</div>
+											
+											<div class="answerSet">
+
+												<div class="answerItem"><input class="answerBtn" type="radio" name="EXquestion{{$index}}" value="0">A.  <span>{{q["0"]}}</span></div>
+												<div class="answerItem"><input class="answerBtn" type="radio" name="EXquestion{{$index}}" value="1">B.  <span>{{q["1"]}}</span></div>
+												<div class="answerItem"><input class="answerBtn" type="radio" name="EXquestion{{$index}}" value="2">C.  <span>{{q["2"]}}</span></div>
+												<div class="answerItem"><input class="answerBtn" type="radio" name="EXquestion{{$index}}" value="3">D.  <span>{{q["3"]}}</span></div>
+										
+											</div>
+										</div>
+
+									</div>
+								</div>	
+							</div>
+
+											  
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="submitExercise()">
+						  Submit
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
+								
+				
+				
+				 <div class="modal fade" id="addExerciseModal" role="dialog">
+					<div class="modal-dialog modal-large">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">Add Exercise</h4>
+						</div>
+						<div class="modal-body bg_grey modalBody" >
+						<div><input type="text" placeholder="Exercise title" id="exerciseTitle" class="createPostTitle" ></input></div>
+						<div class="postBtn postBtn-small bg_red" ng-click="addQuestion()">
+							<div class="icon-small"><i class="fa fa-fw fa-plus-square"></i></div>
+							<div>Add</div>
+						</div>
+							<div class="topicList" ng-repeat="q in newExercise.question">							
+								<div  class="bg_blue topicBar" data-toggle="collapse" href="#question{{$index}}" >
+								Question {{$index+1}}
+								</div>
+								<div class="collapse" id="question{{$index}}">
+									<div class="questionList">
+										<div class="questionInner" >
+											<div>Please input the question</div>
+											<textarea class="questionBox" ></textarea>
+											<div class="answerSet">
+											<form id="question{{$index}}From">
+												<div class="answerItem"><input class="answerBtn" type="radio" name="question{{$index}}" value="0">A  <input class="answerInput choiceA" type="text"></input></div>
+												<div class="answerItem"><input class="answerBtn" type="radio" name="question{{$index}}" value="1">B  <input class="answerInput choiceB" type="text"></input></div>
+												<div class="answerItem"><input class="answerBtn" type="radio" name="question{{$index}}" value="2">C  <input class="answerInput choiceC" type="text"></input></div>
+												<div class="answerItem"><input class="answerBtn" type="radio" name="question{{$index}}" value="3">D  <input class="answerInput choiceD" type="text"></input></div>
+											</form>
+											</div>
+										</div>
+
+									</div>
+								</div>	
+							</div>
+
+											  
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="submitNewExeciseContent()">
+						  Submit
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
+				
+			</div>
+			<div id="discussion" class="contentBlock" ng-if="activeChoice=='3'">
+				<div class="postBtn bg_red" ng-if="postStatus=='0'" data-toggle="modal" data-target="#newPostModal" ng-click="initSummernote()">
+					<div class="icon-small"><i class="fa fa-fw fa-pencil"></i></div>
+					<div>New Post</div>
+				</div>
+				
+				
+				
+				 <div class="modal fade" id="newPostModal" role="dialog">
+					<div class="modal-dialog">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">Create New Post</h4>
+						</div>
+						<div class="modal-body bg_grey modalBody" >
+						  <div><input type="text" placeholder="Post Title" class="createPostTitle" ></input></div>
+						  <div id="summernoteCreate"></div>
+							<div>
+								
+								<input class="fileUpload marginTop" type='file' id="profilePic" onchange="angular.element(this).scope().fileNameChanged(this)" >Please upload a cover photo.(Optional)</input>
+								<div class="previewContainer">
+								<div class="flex marginTop">
+									
+									<div class="previewPicDiv"><img src id="base64PicURL" class="previewPic"></div>
+									<div >
+										<div id="base64Name"></div>
+										<div><a id="removeURL" class="removeTxt" ng-click="removeImg()">Remove</a></div>
+									</div>
+								</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="createPost()">
+						  Submit
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
+				  
+				 <div class="modal fade" id="replyModal" role="dialog">
+					<div class="modal-dialog">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">Reply</h4>
+						</div>
+						<div class="modal-body bg_grey modalBody-small" >
+						  <div id="summernoteReply"></div>
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="replyPost()">
+						  Submit
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
+				
+				<div class="flex" ng-if="postStatus=='1'">
+					<div class="postBtn bg_blue marginRight postBtn-small" ng-click="back()">
+						<div class="icon-small"><i class="fa fa-fw fa-mail-reply"></i></div>
+						<div >Back</div>
+					</div>
+					<div class="postBtn bg_blue postBtn-small" data-toggle="modal" data-target="#replyModal" ng-click="initSummernote()">
+						<div class="icon-small"><i class="fa fa-fw fa-pencil"></i></div>
+						<div >Reply</div>
+					</div>
+				</div>
+				
+				
+				<div class="postList" ng-if="postStatus=='0'" >
+					<div class="postItem" ng-repeat="q in postList" ng-click="readPost(q.id)" style="background-image:url('{{q.image}}');background-repeat:no-repeat;background-size: cover;">
+				
+						<div class="postInfo" >
+						<div class="postInfoInner">
+						<div class="postTitle">{{q.title}}</div>
+						<div class="publishInfo">
+							<div class="authorName">{{q.author}}</div>
+							<div class="publishTime">{{q.time}}</div>
+						</div>
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="replyList" dataId="{{postTitle}}" ng-if="postStatus=='1'" >
+					<div class="bg_green readPostTitle">{{postTitle}}</div>
+					<div ng-repeat="q in replyList" >
+					
+						<div class="readPostContent">
+							<div  ng-if="$index!=0" style="border-bottom-width:1px;border-color:#DBEDF3;border-style:solid"></div>
+							<div class="postNo">#{{$index+1}}</div>
+							<div ng-bind-html="q.content|trustAsHtml" class="marginTop marginBottom font16 postText"></div>
+							<div class="publishDetail"><span class="authorName fontBold">{{renderUserName(q.author)}}</span> {{renderTime(q.time)}}</div>
+						</div>					
+					</div>	
+				</div>
+			
+
+		</div>
+</div>
+
+
+        <!-- /#page-content-wrapper -->
+    
+	<!-- /#wrapper -->
+<!-- jQuery -->
+    
+
+
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+		
+    </script>
+
+	
+
+</body>
+</html>

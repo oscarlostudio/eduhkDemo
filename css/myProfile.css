@@ -1,0 +1,52 @@
+.profile{
+    border: 10px solid transparent;
+    padding: 15px;
+    /*-webkit-border-image: url(../image/border.png) 30 stretch;
+    -o-border-image: url(../image/border.png) 30 stretch;
+    border-image: url(../image/border.png) 30 stretch;
+    background-color: rgba(255, 255, 255, 0.4);*/
+}
+
+p{
+    font-size:40px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+a, a:focus, a:hover{
+    cursor:pointer;
+    text-decoration:none;
+}
+label{
+    padding-right:20px;
+    padding-bottom: 10px;
+}
+
+#addedTags{
+    display:inline-flex;
+    word-wrap: break-word;
+    overflow: hidden; 
+}
+
+.tag{
+    background:#eee;
+    margin-left:-2em;
+    display:inline;
+    word-break: break-all;
+}
+
+.myProfile{
+    padding-left: 50px;
+}
+
+.submitBtn
+{
+	width:100px;
+	height:40px;
+	font-size:18px;
+	color:#fff;
+	text-align:center;
+	vertical-align: middle;
+	line-height: 40px;
+	cursor:pointer;
+}

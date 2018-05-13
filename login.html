@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+<html ng-app="loginApp"> 
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+	<!-- Angular Library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.0.3/firebase.js"></script>
+
+	<!-- AngularFire URL: https://github.com/firebase/angularfire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+
+	<script>
+	  // Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyACG8382aZNwMFKI_uRnkn8rlzUHo9_W8s",
+			authDomain: "eduhk-interview-demo.firebaseapp.com",
+			databaseURL: "https://eduhk-interview-demo.firebaseio.com",
+			projectId: "eduhk-interview-demo",
+			storageBucket: "",
+			messagingSenderId: "151054002208"
+		};
+		firebase.initializeApp(config);
+	</script>
+
+	<!-- login.css -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/color.css">
+
+</head>
+
+<body>
+	<div ng-controller="loginCtrl" class="container">
+    <div class="login" style="position:relative;">
+	<div class="overlay" style="position:absolute;left:0px;top:0px;"></div>
+	<div class="loginBlock">
+	   <div>Eduhk Interview</div>
+        <div>Demo Learning System</div>
+		<div><input type="text" name="email" placeholder="Email" required="required" class="input inputField" ng-model="input.email"></div>
+		<div><input type="password" name="password" placeholder="Password" required="required" class="input inputField" ng-model="input.password"></div>
+		<div class="error_message" style="font-size:24px;"><div style="margin-top:15px">{{error_message}}</div></div> 	    
+		<div class="login-footer"> 
+		
+			<div class="bg_green loginBtn" ng-click="login()">Login</div>
+	
+		</div>
+	
+	
+	</div>
+    </div>
+	<script src="js/loginForm.js"></script>
+</body>
+</html>
