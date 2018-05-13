@@ -41,7 +41,7 @@
 	   <div>Eduhk Interview</div>
         <div>Demo Learning System</div>
 		<div><input type="text" name="email" placeholder="Email" required="required" class="input inputField" ng-model="input.email"></div>
-		<div><input type="password" name="password" placeholder="Password" required="required" class="input inputField" ng-model="input.password"></div>
+		<div><input id="password" type="password" name="password" placeholder="Password" required="required" class="input inputField" ng-model="input.password"></div>
 		<div class="error_message" style="font-size:24px;"><div style="margin-top:15px">{{error_message}}</div></div> 	    
 		<div class="login-footer"> 
 		
@@ -53,5 +53,17 @@
 	</div>
     </div>
 	<script src="js/loginForm.js"></script>
+	 <script src="lib/jquery.min.js"></script> 
+	<script>
+	$( document ).ready(function() {
+			$("#password").keyup(function(event) {
+			if (event.keyCode === 13) {
+				$(".loginBtn").click();
+			}
+		});
+	});
+
+	
+	</script>
 </body>
 </html>

@@ -85,9 +85,10 @@
 				<h1>Dash Board</h1>
 			</div>
 				<!--<div class="section">Course</div>-->
-				<div ng-repeat="q in courseArray">
+				<div class="flex flexWrap">
+				<div ng-repeat="q in courseArray" >
 	
-					<div class="col-lg-4 col-md-6">
+					<div class="courseItem">
 						<div class="panel">
                             <a style="cursor: pointer;" ng-click="dashBoardChangePage(q.key)">
 								<div class="panel-heading"  style="background-image: url({{q.data.image}}); background-size: 100% 100%; color: #FFF">
@@ -100,13 +101,14 @@
 
 							</a>
 							<div class="panel_content" style="cursor: pointer;" ng-click="dashBoardChangePage(q.key)">
-									<div style="margin:10px;">
-										<div>{{q.data.name}}	</div>
+									<div class="courseItemInner">
+										<div>{{q.data.name}}</div>
 									</div>
 							</div>
 
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 			
