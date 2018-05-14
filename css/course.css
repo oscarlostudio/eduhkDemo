@@ -365,9 +365,28 @@
 	text-align:center;
 }
 
+.txt_analytic
+{
+	font-weight:normal;
+	color:black;
+	margin-left:15px;
+}
 
+.txt_choice
+{
+	min-width:100px;
+}
 
+.analyticSummary
+{
+	font-size:18px!important;
+	font-weight:bold!important;
+}
 
+.summaryItem
+{
+	margin-right:15px;
+}
 
 
 

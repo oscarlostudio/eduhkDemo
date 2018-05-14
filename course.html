@@ -152,13 +152,69 @@
 							<div class="icon-small"><i class="fa fa-fw fa-bar-chart"></i></div>
 							<div>Submitted</div>
 						</div>
-						<div class="postBtn bg_green postBtn postBtn-large"  >
+						<div class="postBtn bg_green postBtn postBtn-large" ng-click="loadingAnalytic(q.id)" data-toggle="modal" data-target="#analyitcModal">
 							<div class="icon-large"><i class="fa fa-fw fa-pie-chart"></i></div>
 							<div>Analytics</div>
 						</div>
 
 					</div>
 				</div>
+				
+				
+				
+				
+				 <div class="modal fade" id="analyitcModal" role="dialog">
+					<div class="modal-dialog modal-large">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">{{currAnalytic.title}}</h4>
+						</div>
+						<div class="modal-body bg_grey modalBody" >
+							<div class="flex analyticSummary" >
+								<div class="summaryItem">Max:{{currAnalytic.max}}/{{currAnalytic.question.length}}</div>
+								<div class="summaryItem">Min:{{currAnalytic.min}}/{{currAnalytic.question.length}}</div>
+								<div class="summaryItem">Average:{{currAnalytic.average}}/{{currAnalytic.question.length}}</div>
+							</div>
+							<div class="topicList" ng-repeat="q in currAnalytic.question">							
+								<div  class="bg_blue topicBar" data-toggle="collapse" href="#ANAquestion{{$index}}" >
+								Question {{$index+1}}
+								</div>
+								<div class="collapse" id="ANAquestion{{$index}}">
+									<div class="questionList">
+										<div class="questionInner" >
+											<div>{{q.question}}</div>
+											<div class="answerSet">
+												<div class="answerItem txt_corr" ng-if="q.corr=='0'">A.  <span class="txt_choice">{{q["0"]}}    </span><span class="txt_analytic">{{(q.stat[0])}}</span></div>
+												<div class="answerItem" ng-if="q.corr!='0'">A.  <span class="txt_choice">{{q["0"]}}    </span><span class="txt_analytic">{{(q.stat[0])}}</span></div>												
+												<div class="answerItem txt_corr" ng-if="q.corr=='1'">B.  <span class="txt_choice">{{q["1"]}}    </span><span class="txt_analytic">{{(q.stat[1])}}</span></div>
+												<div class="answerItem" ng-if="q.corr!='1'">B.  <span class="txt_choice">{{q["1"]}}    </span><span class="txt_analytic">{{(q.stat[1])}}</span></div>
+												
+												<div class="answerItem txt_corr" ng-if="q.corr=='2'">C.  <span class="txt_choice">{{q["2"]}}    </span><span class="txt_analytic">{{(q.stat[2])}}</span></div>
+												<div class="answerItem" ng-if="q.corr!='2'">C.  <span class="txt_choice">{{q["2"]}}    </span><span class="txt_analytic">{{(q.stat[2])}}</span></div>
+												
+												<div class="answerItem txt_corr" ng-if="q.corr=='3'">D.  <span class="txt_choice">{{q["3"]}}    </span><span class="txt_analytic">{{(q.stat[3])}}</span></div>
+												<div class="answerItem" ng-if="q.corr!='3'">D.  <span class="txt_choice">{{q["3"]}}    </span><span class="txt_analytic">{{(q.stat[3])}}</span></div>
+
+										
+											</div>
+										</div>
+
+									</div>
+								</div>	
+							</div>
+
+											  
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="closeModal()">
+						  Cancel
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
+				
 				
 				 <div class="modal fade" id="submitReportModal" role="dialog" >
 					<div class="modal-dialog">		

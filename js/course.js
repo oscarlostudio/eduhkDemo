@@ -36,6 +36,7 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		$scope.currExercise={};
 		$scope.currAnswer={};
 		$scope.currSubmitReport={};
+		$scope.currAnalytic={};
 		
 
 		
@@ -63,16 +64,7 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 			$scope.resetNewPostContent();
 		});
 		
-		$scope.getExerciseById=function(exerciseId)
-		{
-			for(var i=0; i<$scope.exerciseList.length;i++)
-			{
-				if(exerciseId==$scope.exerciseList[i].id)
-				{
-					 return $scope.exerciseList[i].data;
-				}
-			}
-		}
+
 		
 		$scope.loadSubmitReport=function(exerciseId)
 		{
@@ -101,21 +93,120 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 			}
 			
 			$scope.currSubmitReport={"title":exercise.title,"data":tmp};
-			console.log("$scope.currSubmitReport",$scope.currSubmitReport);
+		//	console.log("$scope.currSubmitReport",$scope.currSubmitReport);
+		}
+		
+		$scope.choiceStringConverter=function(noOfChoice,totalStudent)
+		{
+			if(totalStudent!=0)
+			{
+				var tmp;
+				tmp=Math.round((noOfChoice/totalStudent)*10000)/100;
+				return tmp.toString()+"%";
+			}
+			else
+			{
+				return "0%";
+			}
+
+		}
+		
+		$scope.loadingAnalytic=function(exerciseId)
+		{
+			var exercise = $scope.getExerciseById(exerciseId);
+			var scoreOfAllStudent=[];
+			var max="0"
+			var min="0"
+			var average="0"
+			for(var i=0;i<exercise.question.length;i++)
+			{
+				var noOfChoiceA=0;
+				var noOfChoiceB=0;
+				var noOfChoiceC=0;
+				var noOfChoiceD=0;
+				var totalStudent=0;
+
+				if(exercise.student)
+				{
+					var totalStudent=Object.keys(exercise.student).length;
+					var tmpScore=0;
+					for(var key in exercise.student)
+					{
+						
+						if(exercise.student[key].answer[i]==exercise.question[i].corr)
+						{
+							tmpScore++;
+						}
+						switch(exercise.student[key].answer[i])
+						{
+							case "0":
+								noOfChoiceA++;
+								break;
+							case "1":
+								noOfChoiceB++;
+								break;
+							case "2":
+								noOfChoiceC++;
+								break;							
+							case "3":
+								noOfChoiceD++;
+								break;		
+							default:
+							break;
+						}
+					}
+					scoreOfAllStudent.push(tmpScore);
+				
+				}
+
+				var stat=[];
+				noOfChoiceA=$scope.choiceStringConverter(noOfChoiceA,totalStudent);
+				noOfChoiceB=$scope.choiceStringConverter(noOfChoiceB,totalStudent);
+				noOfChoiceC=$scope.choiceStringConverter(noOfChoiceC,totalStudent);
+				noOfChoiceD=$scope.choiceStringConverter(noOfChoiceD,totalStudent);
+
+				stat.push(noOfChoiceA);
+				stat.push(noOfChoiceB);
+				stat.push(noOfChoiceC);
+				stat.push(noOfChoiceD);
+				exercise.question[i].stat=stat;
+				
+			}
+			if(exercise.student)
+			{
+				max = 0;
+				min = 999;
+				sum=0;
+				for(var i =0;i<scoreOfAllStudent.length;i++)
+				{
+					if(scoreOfAllStudent[i]>max)
+					{
+						max = scoreOfAllStudent[i];
+					}
+					if(scoreOfAllStudent[i]<min)
+					{
+						min = scoreOfAllStudent[i];
+					}
+					sum+=scoreOfAllStudent[i];
+				}
+				var total=Object.keys(exercise.student).length;
+				var average = Math.round((sum/total));		
+			}
+
+
+			exercise.max=max;
+			exercise.min=min;
+			exercise.average=average;
+			$scope.currAnalytic=exercise;
+			//$scope.$apply();
+			
+			//console.log("$scope.currAnalytic",$scope.currAnalytic);
+			
 		}
 		
 		$scope.loadingExerciseAnswer=function(exerciseId,studentId)
 		{
-			var exercise;
-			
-			for(var i=0; i<$scope.exerciseList.length;i++)
-			{
-				if(exerciseId==$scope.exerciseList[i].id)
-				{
-					 exercise = $scope.exerciseList[i].data;
-					 break;
-				}
-			}
+			var exercise = $scope.getExerciseById(exerciseId);
 			
 			for(var key in exercise.student)
 			{
@@ -135,7 +226,6 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 			$scope.currAnswer=exercise;
 			$scope.$apply();
 		
-			
 		}
 		
 		$scope.submitNewExeciseContent=function()
@@ -475,6 +565,17 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		
 		
 		/**********************************common function**************************************************************/
+		$scope.getExerciseById=function(exerciseId)
+		{
+			for(var i=0; i<$scope.exerciseList.length;i++)
+			{
+				if(exerciseId==$scope.exerciseList[i].id)
+				{
+					 return $scope.exerciseList[i].data;
+				}
+			}
+		}
+		
 		$scope.getScoreById=function(exercise,studentId)
 		{
 			
