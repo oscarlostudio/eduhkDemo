@@ -148,7 +148,7 @@
 				<div class="execiseList" ng-if="role=='1'">
 					<div class="exerciseItem" ng-repeat="q in exerciseList">
 						<div class="exerciseTitle">{{q.data.title}}</div>
-						<div class="postBtn bg_green marginRight postBtn-large"  >
+						<div class="postBtn bg_green marginRight postBtn-large" ng-click="loadSubmitReport(q.id)" data-toggle="modal" data-target="#submitReportModal">
 							<div class="icon-small"><i class="fa fa-fw fa-bar-chart"></i></div>
 							<div>Submitted</div>
 						</div>
@@ -159,6 +159,49 @@
 
 					</div>
 				</div>
+				
+				 <div class="modal fade" id="submitReportModal" role="dialog" >
+					<div class="modal-dialog">		
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header bg_blue">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title modalHeaderFooter">{{currSubmitReport.title}}</h4>
+						</div>
+						<div class="modal-body bg_grey" >
+
+							<div class="topicList" >							
+								<div class="flex">
+									<div class="reportStdId"><b>Student Id</b></div>
+									<div class="reportStdName"><b>Student Name</b></div>
+									<div class="reportSubmited" ><b>Submitted</b></div>
+									<div class="reportScore"><b>Score</b></div>
+								</div>
+								<div class="flex" ng-repeat="q in currSubmitReport.data">
+									<div class="reportStdId">{{q.id}}</div>
+									<div class="reportStdName">{{renderUserName(q.id)}}</div>
+									<div class="reportSubmited">
+										<div class="submitIcon">
+											<i class="glyphicon glyphicon-ok-sign txt_green" ng-if="q.submited"></i>
+											<i class="glyphicon glyphicon-remove-sign txt_red" ng-if="!q.submited"></i>
+										</div>
+									</div>
+									<div class="reportScore">
+										<span ng-if="q.submited">{{q.score}}/{{q.total}}</span>
+										<span ng-if="!q.submited"> - </span>
+									</div>
+								</div>
+							
+							</div>
+				  
+						</div>
+						<div class="modal-footer bg_blue modalHeaderFooter cursorPointer" ng-click="closeModal()">
+						  Cancel
+						</div>
+					  </div>
+					  
+					</div>
+				  </div>
 				
 				
 				 <div class="modal fade" id="checkAnswerModal" role="dialog">

@@ -338,7 +338,32 @@
 	
 }
 
+.submitIcon
+{
+	font-size:18px!important;
+	text-align:center;
+}
 
+.reportStdId
+{
+	width:300px;
+}
+.reportStdName
+{
+	width:150px
+}
+.reportSubmited
+{
+	height:40px;
+	width:100px;
+	text-align:center;
+}
+.reportScore
+{
+	width:100px;
+	margin-left:20px;
+	text-align:center;
+}
 
 
 

@@ -35,6 +35,7 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		$scope.exerciseFB=[];
 		$scope.currExercise={};
 		$scope.currAnswer={};
+		$scope.currSubmitReport={};
 		
 
 		
@@ -62,6 +63,46 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 			$scope.resetNewPostContent();
 		});
 		
+		$scope.getExerciseById=function(exerciseId)
+		{
+			for(var i=0; i<$scope.exerciseList.length;i++)
+			{
+				if(exerciseId==$scope.exerciseList[i].id)
+				{
+					 return $scope.exerciseList[i].data;
+				}
+			}
+		}
+		
+		$scope.loadSubmitReport=function(exerciseId)
+		{
+			var allStudent=$scope.currCourse.student;
+			var submitedStudent=[];
+			var exercise = $scope.getExerciseById(exerciseId);
+			var tmp=[];
+			
+
+			for(var key in exercise.student)
+			{
+				submitedStudent.push(exercise.student[key].id);
+			}
+			
+			for(var i = 0;i < allStudent.length;i++)
+			{
+				if(submitedStudent.indexOf(allStudent[i])!=-1)
+				{
+					var score = $scope.getScoreById(exercise,submitedStudent[i]);
+					tmp.push({"id":allStudent[i],"submited":true,"score":score,"total":exercise.question.length});
+				}
+				else
+				{
+					tmp.push({"id":allStudent[i],"submited":false});
+				}
+			}
+			
+			$scope.currSubmitReport={"title":exercise.title,"data":tmp};
+			console.log("$scope.currSubmitReport",$scope.currSubmitReport);
+		}
 		
 		$scope.loadingExerciseAnswer=function(exerciseId,studentId)
 		{
@@ -434,9 +475,43 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		
 		
 		/**********************************common function**************************************************************/
+		$scope.getScoreById=function(exercise,studentId)
+		{
+			
+			
+			var score=0;
+			var corrertAns=[];
+			var submitedAns=[];
+			for(var i=0;i<exercise.question.length;i++)
+			{
+				corrertAns.push(exercise.question[i].corr);
+			}
+			for(var key in exercise.student)
+			{
+				if(exercise.student[key].id==studentId)
+				{
+					submitedAns = exercise.student[key]["answer"];
+					break;
+				}
+			}
+			
+			for(var i =0;i<submitedAns.length;i++)
+			{
+				if(corrertAns[i]==submitedAns[i])
+				{
+					score++;
+				}
+			}
+			return score;
+		}
+		
 		$scope.closeModal=function()
 		{
 			$('.close').click();
+		}
+		
+		$scope.renderUserEmail = function(e) {
+			return $scope.getMailByName(e);
 		}
 		
 		$scope.renderUserName = function(e) {
@@ -468,6 +543,17 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 			{
 				return true;
 			}
+		}
+		$scope.getMailByName=function(name)
+		{
+			for (var i=0;i<$scope.userAccount.length;i++)
+			{
+				var obj = $scope.userAccount[i];
+				if(obj.userName==name)
+					return obj.mail;
+			}
+			return "Unknown";
+			
 		}
 		$scope.getNameByMail=function(mail)
 		{
