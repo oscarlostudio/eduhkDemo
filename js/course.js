@@ -232,6 +232,8 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		{
 			$scope.newExercise.title=$("#exerciseTitle").val();
 			
+			console.log("$scope.newExercise",$scope.newExercise);
+			
 			for(var i=0;i<$scope.newExercise.question.length;i++)
 			{
 				$scope.newExercise.question[i]["0"]=$("#question"+i).find(".choiceA").val();
@@ -249,6 +251,7 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 				var exercise=angular.copy($scope.newExercise)
 				ref.push(exercise);
 				$('.close').click();
+				$scope.initExercise();
 			}
 			else
 			{
@@ -259,7 +262,7 @@ app.controller("courseCtrl", function($scope,$rootScope,user,$firebaseArray,$win
 		
 		$scope.resetNewExerciseContent=function()
 		{
-			$scope.newExercise={"title":"","question":[QUESTION_TEMPLATE],"student":[]}
+			$scope.newExercise={"title":"","question":[{"question":"","0":"","1":"","2":"","3":""}],"student":[]}
 			$('textarea').val('');
 			$('input').val('');
 		}
